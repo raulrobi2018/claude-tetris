@@ -23,7 +23,7 @@ Three files: `index.html` (DOM: `#board` canvas, side panel HUD, `#next-canvas`,
 
 Key concepts in `game.js`:
 
-- **Cell value = piece type = color index.** `board` is a `ROWS × COLS` matrix of `0` (empty) or `1–7`. Each shape in `PIECES[type]` is filled with its own type number, so `merge()` copies shape values straight into the board and `drawBlock` looks them up in `COLORS`. When adding/changing pieces, keep `PIECES`, `COLORS`, and the `randomPiece()` range (`* 7 + 1`) in sync.
+- **Cell value = piece type = color index.** `board` is a `ROWS × COLS` matrix of `0` (empty) or `1–8`. Each shape in `PIECES[type]` is filled with its own type number, so `merge()` copies shape values straight into the board and `drawBlock` looks them up in `COLORS`. When adding/changing pieces, keep `PIECES` and `COLORS` in sync (`randomPiece()` derives its range from `PIECES.length`). Type 8 is the "tuerca" (nut): a 3×3 ring with an empty center, added as a challenge piece.
 - **Shapes are square matrices**, rotated clockwise by `rotateCW` (transpose + reverse). `tryRotate` applies simple horizontal wall kicks `[0, -1, 1, -2, 2]` — this is not SRS.
 - **`collide(shape, x, y)`** is the single source of truth for legality (bounds + overlap); movement, rotation, gravity, ghost piece (`ghostY`), and spawn/game-over all go through it. Cells with `y < 0` are allowed (above the board).
 - **Game loop**: `loop(ts)` via `requestAnimationFrame`, accumulating `dropAccum` until `dropInterval`; the whole board is redrawn every frame by `draw()`. The next-piece preview (`drawNext`) is only redrawn on `spawn()`.
