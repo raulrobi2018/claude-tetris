@@ -37,4 +37,3 @@ If you change `COLS`, `ROWS`, or `BLOCK`, also update the `width`/`height` of `<
 ### Known quirks in the current code
 
 - `togglePause()` shows the overlay when pausing but never re-adds the `hidden` class when resuming.
-- `endGame()` cancels `animId`, but when triggered from inside `loop()` (via gravity → `lockPiece` → `spawn`), `loop` then schedules a new frame, so rendering keeps running after game over.
