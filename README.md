@@ -42,7 +42,11 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
 - **Vista previa** de la siguiente pieza.
 - **Sistema de puntuación** clásico de Tetris (100 / 300 / 500 / 800 multiplicado por nivel).
 - **Niveles** que aumentan cada 10 líneas y aceleran la caída.
-- **Pausa** y **Game Over** con opción de reinicio.
+- **Pantalla de inicio** con selector de nivel inicial y tabla de récords.
+- **Menú de pausa** (`P` o `Esc`): reanudar, reiniciar, ver controles y elegir el nivel inicial de la próxima partida. Mientras está abierto, las teclas de juego quedan bloqueadas.
+- **Tabla de récords local** (`localStorage`): top 5 con nombre del jugador, resaltado de la nueva entrada, mejor combo y líneas máximas, y botón para borrar.
+- **Skins** intercambiables sin recargar: Retro, Neón (glow), Pastel (bordes redondeados) y Pixel art (textura). La preferencia se guarda.
+- Tema **claro / oscuro**.
 
 ---
 
@@ -85,7 +89,7 @@ Después abre `http://localhost:8000` en el navegador.
 | `↑` o `X` | Rotar la pieza en sentido horario |
 | `↓`       | Soft drop (bajar más rápido)      |
 | `Espacio` | Hard drop (caída instantánea)     |
-| `P`       | Pausar / reanudar                 |
+| `P` / `Esc` | Abrir / cerrar el menú de pausa |
 
 ---
 
@@ -99,7 +103,7 @@ Define la estructura visual:
 
 - Un `<canvas id="board">` de **300 × 600** píxeles donde se renderiza el tablero.
 - Un panel lateral con `SCORE`, `LINES`, `LEVEL`, vista de la siguiente pieza y la lista de controles.
-- Un overlay para los estados **PAUSA** y **GAME OVER**.
+- Un overlay con tres pantallas: **inicio**, **menú de pausa** y **game over** (con tabla de récords).
 
 ### 2. `style.css`
 
@@ -122,7 +126,8 @@ Contiene toda la lógica del juego. A grandes rasgos:
 ### Flujo del juego
 
 ```
-init()
+showStartScreen()  → botón Jugar
+startGame()
   ├─ createBoard()                  → matriz vacía
   ├─ next = randomPiece()
   ├─ spawn()                        → mueve next a current y genera nueva next
@@ -174,7 +179,7 @@ Algunos parámetros fáciles de tunear en `game.js`:
 | `COLS`         | Columnas del tablero                     | `10`                  |
 | `ROWS`         | Filas del tablero                        | `20`                  |
 | `BLOCK`        | Tamaño en píxeles de cada celda          | `30`                  |
-| `COLORS`       | Paleta de colores por tipo de pieza      | 8 colores             |
+| `SKINS`        | Paleta y función de dibujo de cada skin  | 4 skins               |
 | `LINE_SCORES`  | Puntos por 1, 2, 3 o 4 líneas eliminadas | `[0,100,300,500,800]` |
 | `dropInterval` | Velocidad inicial de caída en ms         | `1000`                |
 

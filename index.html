@@ -9,7 +9,13 @@
 <body>
   <h1 class="game-title">TETRIS</h1>
 
-  <button id="theme-toggle" type="button" tabindex="-1" aria-pressed="false">Modo claro</button>
+  <div class="top-bar">
+    <button id="theme-toggle" type="button" tabindex="-1" aria-pressed="false">Modo claro</button>
+    <label class="pill-field">
+      Skin
+      <select id="skin-select" tabindex="-1"></select>
+    </label>
+  </div>
 
   <div class="wrapper">
     <div class="game-container">
@@ -41,17 +47,75 @@
             <li><kbd>↑</kbd> rotar</li>
             <li><kbd>↓</kbd> bajar</li>
             <li><kbd>Space</kbd> caída</li>
-            <li><kbd>P</kbd> pausa</li>
+            <li><kbd>P</kbd><kbd>Esc</kbd> pausa</li>
           </ul>
         </div>
       </aside>
     </div>
 
-    <div id="overlay" class="overlay hidden">
-      <div class="overlay-box">
-        <p id="overlay-title">GAME OVER</p>
-        <p id="overlay-score"></p>
-        <button id="restart-btn">Reiniciar</button>
+    <div id="overlay" class="overlay">
+      <!-- Pantalla de inicio -->
+      <div id="start-screen" class="overlay-box">
+        <p class="overlay-title">NUEVA PARTIDA</p>
+        <button id="play-btn" type="button" class="menu-btn primary">Jugar</button>
+        <label class="field">
+          Nivel inicial
+          <select class="start-level-select"></select>
+        </label>
+        <div class="records">
+          <span class="label">RÉCORDS</span>
+          <table class="records-table">
+            <thead><tr><th>#</th><th>Nombre</th><th>Puntos</th><th>Líneas</th></tr></thead>
+            <tbody class="records-body"></tbody>
+          </table>
+          <p class="records-stats"></p>
+          <button type="button" class="menu-btn small reset-records-btn">Borrar récords</button>
+        </div>
+      </div>
+
+      <!-- Menú de pausa -->
+      <div id="pause-menu" class="overlay-box hidden">
+        <p class="overlay-title">PAUSA</p>
+        <button id="resume-btn" type="button" class="menu-btn primary">Reanudar</button>
+        <button id="pause-restart-btn" type="button" class="menu-btn">Reiniciar</button>
+        <button id="controls-btn" type="button" class="menu-btn" aria-expanded="false">Ver controles</button>
+        <ul id="pause-controls" class="controls-list" hidden>
+          <li><kbd>←</kbd><kbd>→</kbd> mover</li>
+          <li><kbd>↑</kbd><kbd>X</kbd> rotar</li>
+          <li><kbd>↓</kbd> bajar (+1 por fila)</li>
+          <li><kbd>Space</kbd> caída instantánea (+2 por fila)</li>
+          <li><kbd>P</kbd><kbd>Esc</kbd> pausa / reanudar</li>
+        </ul>
+        <label class="field">
+          Nivel inicial
+          <select class="start-level-select"></select>
+        </label>
+        <p class="hint">Se aplica en la próxima partida</p>
+      </div>
+
+      <!-- Game over -->
+      <div id="gameover-screen" class="overlay-box hidden">
+        <p class="overlay-title danger">GAME OVER</p>
+        <p id="gameover-score" class="overlay-score"></p>
+        <p id="gameover-stats" class="hint"></p>
+        <p id="new-record-msg" class="new-record hidden"></p>
+        <form id="name-form" class="name-form hidden">
+          <input id="name-input" type="text" maxlength="12" placeholder="Tu nombre" autocomplete="off" />
+          <button type="submit" class="menu-btn primary">Guardar</button>
+        </form>
+        <div class="records">
+          <span class="label">RÉCORDS</span>
+          <table class="records-table">
+            <thead><tr><th>#</th><th>Nombre</th><th>Puntos</th><th>Líneas</th></tr></thead>
+            <tbody class="records-body"></tbody>
+          </table>
+          <p class="records-stats"></p>
+        </div>
+        <div class="btn-row">
+          <button id="play-again-btn" type="button" class="menu-btn primary">Jugar de nuevo</button>
+          <button id="main-menu-btn" type="button" class="menu-btn">Menú principal</button>
+        </div>
+        <button type="button" class="menu-btn small reset-records-btn">Borrar récords</button>
       </div>
     </div>
   </div>
